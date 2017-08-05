@@ -6,6 +6,13 @@ My configuration of [i3](https://i3wm.org/), with [polybar](https://www.djangopr
 - [i3](https://i3wm.org/)
 - [polybar](https://www.djangoproject.com/)
 - [rofi](https://davedavenport.github.io/rofi/)
+- [i3-gaps](https://github.com/Airblader/i3)
+
+## My config
+- OS : Arch-Linux
+- Terminal : [Terminator](https://wiki.archlinux.org/index.php/Terminator)
+- Shell : [Zsh](zsh.org) with [ohMyZsh](http://ohmyz.sh/)
+- Vim configuration : [CharlesGueunet/vimmic](https://github.com/CharlesGueunet/vimmic)
 
 ## Screenshot
 ![](https://github.com/DracarysBZH/i3-dark-blue/blob/master/img/Screen01.png)
@@ -20,4 +27,3 @@ for details.
 
 ## Acknowledgments
 - Inspired by [Nanjue](https://www.reddit.com/r/unixporn/comments/6qnsxv/colorcont)
-- Vim configuration : [CharlesGueunet/vimmic](https://github.com/CharlesGueunet/vimmic)
