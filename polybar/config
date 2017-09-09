@@ -11,6 +11,13 @@ primary = #AFF9F5
 graphite = #2e3440
 red = #F03051
 black = #000000
+green = #B3F9AF
+pink = #F9AFCA
+orange = #F9C9AF
+blue = #AFC5F9
+purple = #D7AFF9
+dontknow = #AFF9C7
+yellow = #F9F1AF
 
 [bar/example]
 width = 100%
@@ -39,7 +46,7 @@ font-2 = FontAwesome:size=10;3
 
 modules-left = i3
 modules-center =
-modules-right = github pkg wired-network wireless-network redshift backlight volume xkeyboard battery date powermenu
+modules-right = spotify github wired-network wireless-network cpu temperature filesystem pkg redshift volume xkeyboard battery date powermenu
 ; modules-right = filesystem xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu
 
 tray-position = right
@@ -98,29 +105,14 @@ label-urgent = %icon%
 label-urgent-background = ${colors.red}
 label-urgent-padding = 2
 
-[module/backlight]
-type = internal/xbacklight
-
-format = <label> <bar>
-label = BL
-
-bar-width = 10
-bar-indicator = |
-bar-indicator-foreground = #ff
-bar-indicator-font = 2
-bar-fill = ─
-bar-fill-font = 2
-bar-fill-foreground = #9f78e1
-bar-empty = ─
-bar-empty-font = 2
-bar-empty-foreground = ${colors.foreground-alt}
-
+;;;;;;;;;
+;; CPU ;;
+;;;;;;;;;
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = ""
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #f90000
+format-prefix = " "
+format-prefix-foreground = ${colors.green}
 label = %percentage%%
 
 ;;;;;;;;;;;;;;
@@ -130,8 +122,9 @@ label = %percentage%%
 type = internal/network
 interface = enp0s31f6
 format-connected = <label-connected>
+format-connected-foreground = ${colors.purple}
 format-disconnected = <label-disconnected>
-label-connected = %local_ip%
+label-connected =  %local_ip%
 
 ;;;;;;;;;;
 ;; WIFI ;;
@@ -140,8 +133,10 @@ label-connected = %local_ip%
 type = internal/network
 interface = wlp4s0
 
-format-connected = <ramp-signal>
+format-connected = <ramp-signal>  <label-connected>
 format-packetloss = <animation-packetloss>
+label-connected = %local_ip%
+
 
 ramp-signal-0 = 
 ramp-signal-0-foreground = #F03051
@@ -150,11 +145,11 @@ ramp-signal-1-foreground = #F07127
 ramp-signal-2 = 
 ramp-signal-2-foreground = #F9CE56
 ramp-signal-3 = 
-ramp-signal-3-foreground = ${colors.primary}
+ramp-signal-3-foreground = ${colors.purple}
 ramp-signal-4 = 
-ramp-signal-4-foreground = ${colors.primary}
+ramp-signal-4-foreground = ${colors.purple}
 ramp-signal-5 = 
-ramp-signal-5-foreground = ${colors.primary}
+ramp-signal-5-foreground = ${colors.purple}
 
 animation-packetloss-0 = ⚠
 animation-packetloss-0-foreground = #ffa64c
@@ -220,10 +215,8 @@ battery = BAT1
 adapter = AC
 full-at = 98
 format-charging = <animation-charging>
-format-charging-underline =
 
 format-discharging = <ramp-capacity>
-format-discharging-underline =
 
 ramp-capacity-0 =  
 ramp-capacity-0-foreground = ${colors.red}
@@ -231,7 +224,7 @@ ramp-capacity-1 = 
 ramp-capacity-2 =  
 ramp-capacity-3 = 
 ramp-capacity-4 = 
-ramp-capacity-foreground = ${colors.primary}
+ramp-capacity-foreground = ${colors.dontknow}
 
 animation-charging-0 = 
 animation-charging-1 = 
@@ -289,18 +282,17 @@ type = custom/script
 interval = 5
 exec = ~/.config/polybar/redshift.sh
 
-;;;;;;;;;;;;;;;;;;;;;;;
-;; Archlinux updates ;;
-;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;
+;; PKG ;;
+;;;;;;;;;
 [module/pkg]
 type = custom/script
 interval = 1200
 format = <label>
 label = "%output%"
 exec = .config/polybar/pkg.sh
-; exec-if = "ping -q -w 2 -c 1 176.34.135.167 > /dev/null"
-exec-if = "ping -q -w 2 -c 1 arel.eisti.fr > /dev/null"
-format-padding = 4
+exec-if = "ping -q -w 2 -c 1 176.34.135.167 > /dev/null"
+; exec-if = "ping -q -w 2 -c 1 arel.eisti.fr > /dev/null"
 
 ;;;;;;;;;;;;
 ;; GITHUB ;;
@@ -310,6 +302,61 @@ type = internal/github
 token = ${~/.config/polybar/github_access.token}
 empty-notifications = false
 
+;;;;;;;;;;;;;;;;
+;; FILESYSTEM ;;
+;;;;;;;;;;;;;;;;
+[module/filesystem]
+type = internal/fs
+format-mounted = <label-mounted>
+label-mounted = %mountpoint% : %percentage_free%%
+label-mounted-foreground = ${colors.yellow}
+mount-0 = /
+interval = 1200
+fixed-values = false
+spacing = 2
+
+;;;;;;;;;;;;;;;;;
+;; TEMPERATURE ;;
+;;;;;;;;;;;;;;;;;
+[module/temperature]
+type = internal/temperature
+
+interval = 1
+thermal-zone = 0
+
+; $ for i in /sys/class/hwmon/hwmon*/temp*_input; do echo "$(<$(dirname $i)/name): $(cat ${i%_*}_label 2>/dev/null || echo $(basename ${i%_*})) $(readlink -f $i)"; done
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon2/temp1_input
+warn-temperature = 80
+
+format = <ramp> <label>
+label = %temperature%
+
+ramp-0 = 
+ramp-0-foreground = ${colors.pink}
+ramp-1 = 
+ramp-1-foreground = ${colors.pink}
+ramp-2 = 
+ramp-2-foreground = ${colors.pink}
+ramp-3 = 
+ramp-3-foreground = ${colors.red}
+
+format-warn = <ramp> <label-warn>
+label-warn =  %temperature%
+label-warn-foreground = ${colors.red}
+
+;;;;;;;;;;;;;
+;; SPOTIFY ;;
+;;;;;;;;;;;;;
+[module/spotify]
+type = custom/script
+exec = ~/.config/polybar/spotify.sh  %artist% - %title%
+format-foreground = #1ED660
+tail = true
+interval = 2
+
+;;;;;;;;;;;;;;
+;; SETTINGS ;;
+;;;;;;;;;;;;;;
 [settings]
 screenchange-reload = true
 ;compositing-background = xor
