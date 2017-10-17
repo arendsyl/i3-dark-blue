@@ -1,10 +1,10 @@
 # i3-dark-blue
 
-My configuration of [i3](https://i3wm.org/), with [polybar](https://www.djangoproject.com/).
+My configuration of [i3](https://i3wm.org/), with [polybar](https://github.com/jaagr/polybar).
 
 ## Requirements
 - [i3](https://i3wm.org/)
-- [polybar](https://www.djangoproject.com/)
+- [polybar](https://github.com/jaagr/polybar)
 - [rofi](https://davedavenport.github.io/rofi/)
 - [i3-gaps](https://github.com/Airblader/i3)
 
@@ -13,6 +13,22 @@ My configuration of [i3](https://i3wm.org/), with [polybar](https://www.djangopr
 - Terminal : [Terminator](https://wiki.archlinux.org/index.php/Terminator)
 - Shell : [Zsh](zsh.org) with [ohMyZsh](http://ohmyz.sh/)
 - Vim configuration : [CharlesGueunet/vimmic](https://github.com/CharlesGueunet/vimmic)
+
+## Installation
+```
+$ cd ~
+$ mv i3-dark-blue/i3/config .config/i3/
+$ mv i3-dark-blue/polybar/config .config/polybar/
+$ mv i3-dark-blue/rofi/config .config/rofi/
+```
+
+## Keyboard Shortcuts
+`$Mod + n` : Rofi   
+`$Mod + f` : Firefox  
+`$Mod + Enter` : Terminator  
+`$Mod + a` : i3lock-fancy  
+`$Mod + Shift + r` : Restart i3 config  
+
 
 ## Screenshot
 ![](https://github.com/DracarysBZH/i3-dark-blue/blob/master/img/Screen01.png)
