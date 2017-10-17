@@ -46,7 +46,7 @@ font-2 = FontAwesome:size=10;3
 
 modules-left = i3
 modules-center =
-modules-right = spotify github wired-network wireless-network cpu temperature filesystem pkg redshift volume xkeyboard battery date powermenu
+modules-right = spotify wired-network wireless-network cpu temperature filesystem pkg redshift volume xkeyboard battery date powermenu
 ; modules-right = filesystem xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu
 
 tray-position = right
@@ -121,10 +121,14 @@ label = %percentage%%
 [module/wired-network]
 type = internal/network
 interface = enp0s31f6
-format-connected = <label-connected>
+format-connected = <ramp-signal> <label-connected>
+label-connected = %local_ip%
+
 format-connected-foreground = ${colors.purple}
 format-disconnected = <label-disconnected>
-label-connected =  %local_ip%
+
+ramp-signal-0 = 
+ramp-signal-0-foreground = ${colors.purple}
 
 ;;;;;;;;;;
 ;; WIFI ;;
@@ -256,7 +260,9 @@ menu-0-2 = 
 menu-0-2-exec = menu-open-3
 menu-0-3 = 
 menu-0-3-exec = menu-open-4
-menu-0-4 = "  "
+menu-0-4 = 
+menu-0-4-exec = menu-open-5
+menu-0-5 = "  "
 
 menu-1-0 = 
 menu-1-0-exec = systemctl suspend -i
@@ -273,6 +279,10 @@ menu-3-1 = "  "
 menu-4-0 = 
 menu-4-0-exec = i3lock-fancy
 menu-4-1 = "  "
+
+menu-5-0 = 
+menu-5-0-exec = i3-msg exit
+menu-5-1 = "  "
 
 ;;;;;;;;;;;;;;
 ;; REDSHIFT ;;
@@ -291,8 +301,8 @@ interval = 1200
 format = <label>
 label = "%output%"
 exec = .config/polybar/pkg.sh
-exec-if = "ping -q -w 2 -c 1 176.34.135.167 > /dev/null"
-; exec-if = "ping -q -w 2 -c 1 arel.eisti.fr > /dev/null"
+; exec-if = "ping -q -w 2 -c 1 176.34.135.167 > /dev/null"
+exec-if = "ping -q -w 2 -c 1 arel.eisti.fr > /dev/null"
 
 ;;;;;;;;;;;;
 ;; GITHUB ;;
