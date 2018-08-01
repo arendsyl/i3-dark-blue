@@ -1,0 +1,390 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'flazz/vim-colorschemes'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'Yggdroot/indentLine'
+Plugin 'whatyouhide/vim-lengthmatters'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'tyrannicaltoucan/vim-quantum'
+Plugin 'vim-airline/vim-airline'
+Plugin 'scrooloose/nerdtree'
+Plugin 'mbbill/undotree'
+Plugin 'mhinz/vim-startify'
+Plugin 'myusuf3/numbers.vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'mhinz/vim-signify'
+Plugin 'Raimondi/delimitMate'
+Plugin 'tpope/vim-commentary'
+Plugin 'luochen1990/rainbow'
+Plugin 'osyo-manga/vim-over'
+Plugin 'scrooloose/syntastic'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'honza/vim-snippets'
+Plugin 'ntpeters/vim-better-whitespace'
+ " C / CPP
+Plugin 'justmao945/vim-clang'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'richq/vim-cmake-completion'
+" Python
+" Plugin 'davidhalter/jedi-vim'
+Plugin 'andviro/flake8-vim'
+" XML / HTML
+Plugin 'sukima/xmledit'
+" Latex
+Plugin 'lervag/vimtex'
+" Markdown
+Plugin 'plasticboy/vim-markdown'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+""""""""""""""""""""""""""
+
+" change leader to space
+let mapleader=","
+
+set wildmode=longest,list,full
+set wildmenu
+
+" VTK files are xml
+autocmd BufRead,BufNewFile *.vti,*.vtu,*.vtp set filetype=xml
+
+" plt files are gnuplot
+autocmd BufRead,BufNewFile *.plt set filetype=gnuplot
+
+
+""""""""""""""""""""""""""
+" Vil-Clang
+""""""""""""""""""""""""""
+let g:clang_auto = 0 " no complete after . (ctrl-x x does)
+"let g:clang_dotfile = '.clang'
+let g:clang_c_options = '-std=gnu11'
+let g:clang_cpp_options = '-std=c++11 -stdlib=libstdc++'
+let g:clang_include_sysheaders_from_gcc = 1
+" non intrusive completion
+let g:clang_diagsopt = ''
+" default 'longest' can not work with neocomplete
+let g:clang_c_completeopt = 'menuone,longest'
+let g:clang_cpp_completeopt = 'menuone,longest'
+
+""""""""""""""""""""""""""
+" Autre
+""""""""""""""""""""""""""
+nnoremap <F9> :UndotreeToggle<cr>
+nnoremap <F3> :NumbersToggle<CR>
+nnoremap <F4> :NumbersOnOff<CR>
+nnoremap <F5> :NERDTreeToggle<CR>
+
+""""""""""""""""""""""""""
+" CppEnhance
+""""""""""""""""""""""""""
+let g:cpp_class_scope_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+
+""""""""""""""""""""""""""
+" GitGutter
+""""""""""""""""""""""""""
+let g:gitgutter_override_sign_column_highlight = 0
+
+" diff from git
+map <leader>gd <leader>hp
+" highlight different lines
+map <leader>gh :GitGutterLineHighlightsToggle<cr>
+" Revert this section from git
+map <leader>gr :GitGutterUndoHunk<cr>
+"go to previous/next hunk
+map <leader>gp :GitGutterPrevHunk<cr>
+map <leader>gn :GitGutterNextHunk<cr>
+
+function! s:GitgutterColors()
+    highlight GitGutterAdd ctermbg=none ctermfg=green
+    highlight GitGutterChange ctermbg=none ctermfg=yellow
+    highlight GitGutterChangeDelete ctermbg=none ctermfg=yellow
+    highlight GitGutterDelete ctermbg=none ctermfg=red
+    highlight GitGutterAddLine ctermbg=22
+    highlight GitGutterChangeLine ctermbg=94
+    highlight GitGutterDeleteLine ctermbg=88
+endfunction
+
+if !exists("g:disable_defaultColors")
+    autocmd VimEnter * call s:GitgutterColors()
+endif
+
+set updatetime=100
+
+""""""""""""""""""""""""""
+" Snipmate
+""""""""""""""""""""""""""
+let g:snipMate = { 'override' : 1 }        " in case of extended snipate, choose last automatically
+let g:snipMate.snippet_version=1
+
+""""""""""""""""""""""""""
+" NerdCommenter
+""""""""""""""""""""""""""
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+" Tabs navigation
+map <Leader>> :tabnext<CR>
+map <Leader>< :tabprevious<CR>
+map <Leader>t :tabnew<CR>
+
+""""""""""""""""""""""""""
+" Signify
+""""""""""""""""""""""""""
+let g:signify_vcs_list = [ 'accurev','bzr','cvs','darcs','fossil','hg','perforce','rcs','svn','tfs']
+
+function! s:SignifyColors()
+     highlight SignifySignAdd    cterm=bold  ctermfg=119
+     highlight SignifySignDelete cterm=bold  ctermfg=167
+     highlight SignifySignChange cterm=bold  ctermfg=227
+endfunction
+
+if !exists("g:disable_defaultColors")
+    autocmd VimEnter * call s:SignifyColors()
+endif
+
+""""""""""""""""""""""""""
+" Vim AirLine
+""""""""""""""""""""""""""
+set laststatus=2                                                        " appear on first tab
+let g:Powerline_symbols                          = 'fancy'              " theme setting
+let g:airline#extensions#tabline#enabled         = 1                    " tab bar at the top
+let g:airline#extensions#tabline#buffer_idx_mode = 1                    " tabs navigation enabled
+let g:airline#extensions#tabline#fnamemod        = ':t'
+let g:airline#extensions#tabline#show_tab_nr     = 1
+let g:airline#extensions#tabline#formatter       = 'unique_tail'        " tab display only name
+let g:airline#extensions#tagbar#enabled          = 1                    " link with tagbar
+let g:airline#extensions#syntastic#enabled       = 1                    " link with syntastic
+let g:airline#extensions#undotree#enabled        = 1                    " link with undotree
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+let g:airline_symbols.maxlinenr = ' '
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'P'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" Vim-airline: go to tab 1-9
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+
+""""""""""""""""""""""""""
+" VimCommentary
+""""""""""""""""""""""""""
+autocmd FileType c,cpp setlocal commentstring=//\ %s
+autocmd FileType c,cpp map gct :call ToogleCommentaryCCPP()<CR>
+filetype plugin on
+
+""""""""""""""""""""""""""
+" DelimitMate
+""""""""""""""""""""""""""
+let delimitMate_matchpairs = "(:),[:],{:}"
+"au FileType c*,perl let b:delimitMate_matchpairs = "(:),[:],{:}"
+" try to balance matchpair
+let delimitMate_balance_matchpairs = 1
+" Go out of current delimitation (), [], {}...
+imap <c-a> <Plug>delimitMateS-Tab
+
+""""""""""""""""""""""""""
+" Rainbow
+""""""""""""""""""""""""""
+let g:rainbow_active = 1     "0 if you want to enable it later via :RainbowToggle"
+let g:rainbow_conf = {
+      \   'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+      \   'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightgreen', 'lightmagenta', 'lightgray', 'lightred'],
+      \   'operators': '_,\|;\|==\|!=\|>=\|<=\|=\|->\|\.\|+\|-\|*\|&\|||\|>\|<\|!_',
+      \   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+      \   'separately': {
+      \       '*': {},
+      \       'tex': {
+      \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/'],
+      \       },
+      \       'lisp': {
+      \           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+      \       },
+      \       'vim': {
+      \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+      \       },
+      \       'html': {
+      \           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+      \       },
+      \       'css': 0,
+      \   }
+      \}
+
+""""""""""""""""""""""""""
+" Syntastic
+""""""""""""""""""""""""""
+let g:syntastic_always_populate_loc_list = 0  " we don't want the error windows at startup
+let g:syntastic_auto_loc_list = 2             " close error window when done
+let g:syntastic_check_on_open = 1             " check file at startup
+let g:syntastic_check_on_wq = 0
+let g:syntastic_enable_balloons = 1           " for gvim, popup with mouse
+" c / cpp
+let g:syntastic_c_check_header  = 1           " check header file
+let g:syntastic_cpp_check_header  = 1
+
+let g:syntastic_cpp_compiler_options = '-std=c++11'
+
+let g:syntastic_python_checkers = []
+
+let g:syntastic_shell = '/bin/zsh'
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+map <leader>c :SyntasticCheck<CR>
+map <leader>e :Errors<CR>
+
+""""""""""""""""""""""""""
+" Files & Buffers
+""""""""""""""""""""""""""
+set pastetoggle=<F2>
+set nocompatible                " Use all new vim functionalities
+set hidden                      " Do not close the buffers, hide them
+set history=1000                " Remember more commands and search history
+set undolevels=1000             " Remember more levels of undo
+set noerrorbells                " No buzz on error
+set novisualbell                " No 'visual buzz' on error
+set t_vb=                       " Same as above
+set autoread                    " Reload the file if changed from the outside
+set switchbuf=useopen           " if opening a file from :ls, :buffers, :files
+set confirm                     " dialog foor unsaved changes
+
+" Terminal/GUI setup
+set encoding=utf-8              " Fix encoding shit...
+set guifont=inconsolata         " For people prefering the GVim...
+set mouse=a                     " Use mouse when using vim (tip: maj during
+                                " selection to use ctrl-maj-c to copy text)
+
+""""""""""""""""""""""""""
+" Indentation
+""""""""""""""""""""""""""
+" Global configuration
+set expandtab                     " Transform kitten killer tabs to spaces
+set tabstop=4                     " Number of visual spaces per tab
+set shiftwidth=4                  " Number of spaces to use for autoindent
+set backspace=indent,eol,start    " Allow backspacing over everything in insert mode
+set autoindent                    " Always set autoindent on
+set copyindent                    " Copy the previous indentation on autoindent
+set shiftround                    " Use n shiftwidth when indenting with <>
+set smarttab                      " Use smart removal when using tabs
+autocmd FileType c,cpp  set smartindent " For c file, automatically inserts one extra level
+                                        "of indentation in some cases
+set nojoinspaces                " When joining lines that end with '.', '?' or '!',
+                                " only insert one space, not two
+
+" Trailing / tabs
+set list
+
+""""""""""""""""""""""""""
+" Readability
+""""""""""""""""""""""""""
+syntax on
+set number                        " Always show line number
+set cursorline                    " Change the current line background
+set scrolloff=8                   " Keep 8 line above and under the current one
+au BufNewFile,BufRead CMakeLists.txt set filetype=cmake    " for cmake
+
+""""""""""""""""""""""""""
+" Colorscheme and Theme
+""""""""""""""""""""""""""
+set background=dark
+set termguicolors
+let g:quantum_black=1
+let g:quantum_italics=1
+colorscheme quantum
+let g:airline_theme='quantum'
+set t_Co=256
+
+""""""""""""""""""""""""""
+" Display and search configuration
+""""""""""""""""""""""""""
+set shortmess=a                 " Deal with messages
+set nowrap                        " No new line when the line is too long
+set showmatch                     " Show matching parenthesis
+set ignorecase                    " Basically, ignore case when searching...
+set smartcase                     " ...but be smart on the case when searching
+set hlsearch                      " Highlight search matches as you type
+set incsearch                     " Show search matches as you type
+set ruler                         " Display the current cursor position
+
+""""""""""""""""""""""""""
+" Windows navigation
+""""""""""""""""""""""""""
+nmap <Leader>v :vsplit<CR>
+nmap <Leader>h :split<CR>
+map <C-Left> <C-w>h
+map <C-Up> <C-w>k
+map <C-Down> <C-w>j
+map <C-Right> <C-w>l
+
+inoremap <C-Space> <C-n>
+inoremap <Nul> <C-n>
+
+""""""""""""""""""""""""""
+" Highlight
+""""""""""""""""""""""""""
+highlight ExtraWhitespace ctermbg=237
+highlight NonText guifg=#7681DE
+highlight SpecialKey guifg=#7681DE
+let g:better_whitespace_enabled=1
+let g:strip_whitespace_on_save=1
+let g:better_whitespace_operator='_s'
+let g:show_spaces_that_precede_tabs=1
+set listchars=tab:▸\ ,trail:•
+
+" Autocompletion
+"""""""""""""""""""""""""""""""""""""""
+" Wildmenu completion : exclude some files
+set wildmenu
+set wildmode=list:longest,full
+set wildignore+=.hg,.git,.svn " Version Controls
+set wildignore+=*.aux,*.out,*.toc " Latex Indermediate files
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg " Binary Imgs
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " Compiled Object files
+set wildignore+=*.spl " Compiled speolling world list
+set wildignore+=*.sw? " Vim swap files
+set wildignore+=*.DS_Store " OSX SHIT
+set wildignore+=*.luac " Lua byte code
+set wildignore+=migrations " Django migrations
+set wildignore+=*.pyc " Python Object codes
+set wildignore+=*.orig " Merge resolution files
+set wildignore+=*.class " java/scala class files
+set wildignore+=*/target/* " sbt target dires `,`. You can use space
+                                       " in your local
+set completeopt=menu,longest
+au FileType xml,html set matchpairs+=<:> " For tags and template
+" automatically open and close the popup menu / preview window
+au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
