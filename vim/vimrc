@@ -64,7 +64,10 @@ autocmd BufRead,BufNewFile *.vti,*.vtu,*.vtp set filetype=xml
 autocmd BufRead,BufNewFile *.plt set filetype=gnuplot
 
 " Syntax highlighting
-au BufRead *.html set filetype=htmlm4
+au BufRead *.html set filetype=htmlm4 sw=2 sts=2 et
+
+" Vim indent depends on file
+au FileType javascript setl sw=2 sts=2 et
 
 
 """"""""""""""""""""""""""
