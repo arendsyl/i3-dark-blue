@@ -29,6 +29,10 @@ Plugin 'tomtom/tlib_vim'
 Plugin 'garbas/vim-snipmate'
 Plugin 'honza/vim-snippets'
 Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'JamshedVesuna/vim-markdown-preview'
+" ReactJS
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
  " C / CPP
 Plugin 'justmao945/vim-clang'
 Plugin 'octol/vim-cpp-enhanced-highlight'
@@ -58,6 +62,9 @@ autocmd BufRead,BufNewFile *.vti,*.vtu,*.vtp set filetype=xml
 
 " plt files are gnuplot
 autocmd BufRead,BufNewFile *.plt set filetype=gnuplot
+
+" Syntax highlighting
+au BufRead *.html set filetype=htmlm4
 
 
 """"""""""""""""""""""""""
