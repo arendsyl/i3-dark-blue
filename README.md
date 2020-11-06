@@ -9,10 +9,9 @@ My configuration of [i3](https://i3wm.org/), with [polybar](https://github.com/j
 - [i3-gaps](https://github.com/Airblader/i3)
 
 ## My config
-- OS : Arch-Linux
+- OS : Ubuntu 20.04
 - Terminal : [Terminator](https://wiki.archlinux.org/index.php/Terminator)
 - Shell : [Zsh](zsh.org) with [ohMyZsh](http://ohmyz.sh/)
-- Vim configuration : [CharlesGueunet/vimmic](https://github.com/CharlesGueunet/vimmic)
 
 ## Installation
 ```
@@ -23,7 +22,8 @@ $ mv i3-dark-blue/rofi/config .config/rofi/
 ```
 
 ## Keyboard Shortcuts
-`$Mod + n` : Rofi   
+`$Mod + n` : Rofi  
+`$Mod + p` : ssh
 `$Mod + f` : Firefox  
 `$Mod + Enter` : Terminator  
 `$Mod + a` : i3lock-fancy  
@@ -31,11 +31,15 @@ $ mv i3-dark-blue/rofi/config .config/rofi/
 
 
 ## Screenshot
-![](https://github.com/DracarysBZH/i3-dark-blue/blob/master/img/Screen01.png)
-![](https://github.com/DracarysBZH/i3-dark-blue/blob/master/img/ScreenRofi.png)
+
+![](https://github.com/arendsyl/i3-dark-blue/blob/master/img/ScreenPlain.png)
+![](https://github.com/arendsyl/i3-dark-blue/blob/master/img/ScreenTerm.png)
+![](https://github.com/arendsyl/i3-dark-blue/blob/master/img/ScreenFloating.png)
+![](https://github.com/arendsyl/i3-dark-blue/blob/master/img/ScreenRofi.png)
 
 ## Authors
-- __Laurine Sorel__ - [DracarysBZH](https://github.com/DracarysBZH)
+- __Jean-Baptiste Kaiser__ [arendsyl](https://github.com/arendsyl)
+
 
 ## License
 This project follows the BSD 2-Clause License. See the [LICENSE](https://github.com/DracarysBZH/i3-zen/blob/master/LICENSE)
@@ -43,3 +47,4 @@ for details.
 
 ## Acknowledgments
 - Inspired by [Nanjue](https://www.reddit.com/r/unixporn/comments/6qnsxv/colorcont)
+- With the impressive work done by  __Laurine Sorel__ - [DracarysBZH](https://github.com/DracarysBZH)

@@ -9,7 +9,7 @@ foreground = #dfdfdf
 foreground-alt = #ffffff
 ; primary = #AFF9F5
 ; primary = #B2F9AF
-primary = #F13043
+primary = #191970
 graphite = #2e3440
 red = #F03051
 black = #000000
@@ -48,11 +48,14 @@ module-margin-right = 2
 
 font-0 = fixed:pixelsize=10;3
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = FontAwesome:size=10;3
+font-2 = FontAwesome5Free-Regular:style=Regular:size=10;3
+font-3 = FontAwesome5Free-Regular:style=Solid:size=10;3  
+font-4 = FontAwesome:size=10;3
+font-5 = FontAwesome5Brands:size=10;3
 
 modules-left = i3
 modules-center =
-modules-right = spotify wired-network wireless-network cpu temperature filesystem pkg redshift volume xkeyboard battery date powermenu
+modules-right = wired-network wireless-network vpn-openvpn-isrunning gmail github cpu memory filesystem battery xkeyboard backlight redshift temperature pulseaudio-microphone pulseaudio date powermenu
 ; modules-right = filesystem xbacklight volume xkeyboard memory cpu wlan eth battery temperature date powermenu
 
 tray-position = right
@@ -63,10 +66,13 @@ tray-padding = 2
 ;;;;;;;;;;;;;;;
 [module/xkeyboard]
 type = internal/xkeyboard
-blacklist-0 = num lock
+
+blaklist-0 = scroll lock
+
 format = <label-indicator>
 format-prefix-foreground = ${colors.foreground-alt}
-label-indicator = 
+label-indicator-on-numlock = 
+label-indicator-on-capslock ="  "
 
 ;;;;;;;;
 ;; I3 ;;
@@ -76,14 +82,14 @@ type = internal/i3
 
 ws-icon-0 = 1;
 ws-icon-1 = 2;
-ws-icon-6 = 3;
-ws-icon-3 = 4;
-ws-icon-4 = 5;
-ws-icon-5 = 6;
-ws-icon-2 = 7;
-ws-icon-7 = 8;
-ws-icon-8 = 9;
-ws-icon-9 = 10;
+ws-icon-6 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-5 = 6;
+ws-icon-2 = 7;
+ws-icon-7 = 8;
+ws-icon-8 = 9;
+ws-icon-9 = 10;
 ws-icon-default = ♟
 
 format = <label-state> <label-mode>
@@ -91,12 +97,12 @@ index-sort = true
 wrapping-scroll = false
 
 label-mode-padding = 2
-label-mode-foreground = #000
+label-mode-foreground = ${colors.foreground-alt}
 label-mode-background = ${colors.primary}
 
-label-focused = %index%: %icon%
+label-focused = %icon%
 label-focused-background = ${colors.primary}
-label-focused-foreground = ${colors.black}
+label-focused-foreground = ${colors.foreground-alt}
 label-focused-padding = 2
 
 label-unfocused = %icon%
@@ -121,12 +127,31 @@ format-prefix = " "
 format-prefix-foreground = ${colors.green}
 label = %percentage%%
 
+;;;;;;;;;
+;; RAM ;;
+;;;;;;;;;
+[module/memory]
+type = internal/memory
+interval = 3
+format = <label>
+format-prefix = "  " 
+format-prefix-foreground = ${colors.green}
+label = %percentage_used%% %percentage_swap_used%%
+
+;;;;;;;;;
+;; VPN ;;
+;;;;;;;;;
+[module/vpn-openvpn-isrunning]
+type = custom/script
+exec = ~/.config/polybar/vpn-openvpn-isrunning/vpn-openvpn-isrunning.sh
+interval = 5
+
 ;;;;;;;;;;;;;;
 ;; ETHERNET ;;
 ;;;;;;;;;;;;;;
 [module/wired-network]
 type = internal/network
-interface = enp0s31f6
+interface = eno2
 format-connected = <ramp-signal> <label-connected>
 label-connected = %local_ip%
 
@@ -141,7 +166,7 @@ ramp-signal-0-foreground = ${colors.purple}
 ;;;;;;;;;;
 [module/wireless-network]
 type = internal/network
-interface = wlp4s0
+interface = wlo1
 
 format-connected = <ramp-signal>  <label-connected>
 format-packetloss = <animation-packetloss>
@@ -178,55 +203,54 @@ type = internal/date
 
 interval = 5
 format = <label>
-date = ""
+date = 
 date-alt = %d %b %y
 time = %H:%M
-time-alt = ""
+time-alt =
 label = %date% %time%
 
-;;;;;;;;;;;;
-;; VOLUME ;;
-;;;;;;;;;;;;
-[module/volume]
-type = internal/volume
+;;;;;;;;;;;;;;;
+;; MICROPHONE;;
+;;;;;;;;;;;;;;;
+[module/pulseaudio-microphone]
+type = custom/script
+exec = ~/.config/polybar/pulseaudio-microphone/pulseaudio-microphone.sh
+tail = true
+click-left = ~/.config/polybar/pulseaudio-microphone/pulseaudio-microphone.sh --toggle &
 
-format-volume = <label-volume> <ramp-volume>
-label-volume = 
-label-muted = 
+;;;;;;;;;;;;;;;
+;; PULSEAUDIO;;
+;;;;;;;;;;;;;;;
+[module/pulseaudio]
+type = internal/pulseaudio
 
-ramp-volume-0 = 0%
-ramp-volume-1 = 5%
-ramp-volume-2 = 10%
-ramp-volume-3 = 15%
-ramp-volume-4 = 20%
-ramp-volume-5 = 25%
-ramp-volume-6 = 30%
-ramp-volume-7 = 35%
-ramp-volume-8 = 40%
-ramp-volume-9 = 45%
-ramp-volume-10 = 50%
-ramp-volume-11 = 55%
-ramp-volume-12 = 60%
-ramp-volume-13 = 65%
-ramp-volume-14 = 70%
-ramp-volume-15 = 75%
-ramp-volume-16 = 80%
-ramp-volume-17 = 85%
-ramp-volume-18 = 90%
-ramp-volume-19 = 95%
-ramp-volume-20 = 100%
+sink = alsa_output.pci-0000_00_1f.3.analog-stereo
+use-ui-max = true
+interval = 5
+
+format-volume = <ramp-volume> <label-volume>
+format-muted = <label-muted>
+label-volume = %percentage%
+label-muted =  0%
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
 
 ;;;;;;;;;;;;;
 ;; BATTERY ;;
 ;;;;;;;;;;;;;
 [module/battery]
 type = internal/battery
-battery = BAT1
+battery = BAT0
 adapter = AC
 full-at = 98
-format-charging = <animation-charging>
-
-format-discharging = <ramp-capacity>
+label-charging = %percentage%%
+label-discharging = %percentage%%
+format-charging = <animation-charging> <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+label-full =  %percentage%%
+format-full = <ramp-capacity> <label-full>
 
 ramp-capacity-0 = 
 ramp-capacity-0-foreground = ${colors.red}
@@ -255,7 +279,7 @@ label-close =
 format = <label-toggle><menu>
 label-separator = "  "
 
-format-foreground = ${colors.graphite}
+format-foreground = ${colors.foreground}
 format-background = ${colors.primary}
 
 menu-0-0 = 
@@ -290,6 +314,21 @@ menu-5-0 = 
 menu-5-0-exec = i3-msg exit
 menu-5-1 = "  "
 
+;;;;;;;;;;;;;;;
+;; BACKLIGHT ;; 
+;;;;;;;;;;;;;;;
+[module/backlight]
+type = internal/backlight
+card = intel_backlight
+enable-scroll = true
+format = <ramp> <label>
+label = %percentage%
+ramp-0 = 🌕 
+ramp-1 = 🌔
+ramp-2 = 🌓
+ramp-3 = 🌒
+ramp-4 = 🌑
+
 ;;;;;;;;;;;;;;
 ;; REDSHIFT ;;
 ;;;;;;;;;;;;;;
@@ -298,25 +337,27 @@ type = custom/script
 interval = 5
 exec = ~/.config/polybar/redshift.sh
 
-;;;;;;;;;
-;; PKG ;;
-;;;;;;;;;
-[module/pkg]
-type = custom/script
-interval = 1200
-format = <label>
-label = "%output%"
-exec = .config/polybar/pkg.sh
-; exec-if = "ping -q -w 2 -c 1 176.34.135.167 > /dev/null"
-exec-if = "ping -q -w 2 -c 1 arel.eisti.fr > /dev/null"
-
 ;;;;;;;;;;;;
 ;; GITHUB ;;
 ;;;;;;;;;;;;
 [module/github]
 type = internal/github
-token = ${~/.config/polybar/github_access.token}
+token = ${file:~/.config/polybar/github_access.token}
+user = arendsyl
+interval = 120
+label =  %notifications%
+label-offline = 
 empty-notifications = false
+
+
+;;;;;;;;;;;
+;; GMAIL ;;
+;;;;;;;;;;;
+[module/gmail]
+type = custom/script
+exec = ~/.config/polybar/gmail/launch.py --label 'INBOX' --prefix '' --color '#F03051' --nosound
+tail = true
+click-left = xdg-open https://mail.google.com
 
 ;;;;;;;;;;;;;;;;
 ;; FILESYSTEM ;;
@@ -324,7 +365,7 @@ empty-notifications = false
 [module/filesystem]
 type = internal/fs
 format-mounted = <label-mounted>
-label-mounted = %mountpoint% : %percentage_free%%
+label-mounted =   %percentage_used%%
 label-mounted-foreground = ${colors.yellow}
 mount-0 = /
 interval = 1200
@@ -341,11 +382,11 @@ interval = 1
 thermal-zone = 0
 
 ; $ for i in /sys/class/hwmon/hwmon*/temp*_input; do echo "$(<$(dirname $i)/name): $(cat ${i%_*}_label 2>/dev/null || echo $(basename ${i%_*})) $(readlink -f $i)"; done
-hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon2/temp1_input
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input
 warn-temperature = 80
 
 format = <ramp> <label>
-label = %temperature%
+label = %temperature-c%
 
 ramp-0 = 
 ramp-0-foreground = ${colors.pink}
@@ -357,18 +398,8 @@ ramp-3 = 
 ramp-3-foreground = ${colors.red}
 
 format-warn = <ramp> <label-warn>
-label-warn =  %temperature%
+label-warn =  %temperature-c%
 label-warn-foreground = ${colors.red}
-
-;;;;;;;;;;;;;
-;; SPOTIFY ;;
-;;;;;;;;;;;;;
-[module/spotify]
-type = custom/script
-exec = ~/.config/polybar/spotify.sh  %artist% - %title%
-format-foreground = #1ED660
-tail = true
-interval = 2
 
 ;;;;;;;;;;;;;;
 ;; SETTINGS ;;

@@ -1,8 +1,24 @@
 [global_config]
+  window_state = maximise
+  suppress_multiple_term_dialog = True
+  title_use_system_font = False
 [keybindings]
-  broadcast_all = None
-  broadcast_group = None
-  broadcast_off = None
+  split_horiz = <Primary><Shift>o
+  split_vert = <Primary><Shift>l
+[profiles]
+  [[default]]
+    background_color = "#2e3141"
+    background_darkness = 0.88
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+    font = Ubuntu Mono derivative Powerline 11.19921875
+    foreground_color = "#eeeeec"
+    show_titlebar = False
+    scrollbar_position = hidden
+    scroll_on_keystroke = False
+    scrollback_lines = 1000
+    palette = "#ffffff:#cd0000:#2571e2:#cdcd00:#eeeeec:#cd00cd:#00cdcd:#f3f3f3:#7f7f7f:#ff0000:#d3d7cf:#ffff00:#29a0ff:#ff00ff:#00ffff:#5c3566"
+    use_system_font = False
 [layouts]
   [[default]]
     [[[child1]]]
@@ -12,17 +28,3 @@
       parent = ""
       type = Window
 [plugins]
-[profiles]
-  [[default]]
-    background_color = "#2e3141"
-    background_darkness = 0.88
-    background_type = transparent
-    cursor_color = "#aaaaaa"
-    font = Meslo LG L for Powerline 10
-    foreground_color = "#eeeeec"
-    palette = "#ffffff:#cd0000:#2571e2:#cdcd00:#eeeeec:#cd00cd:#00cdcd:#f3f3f3:#7f7f7f:#ff0000:#d3d7cf:#ffff00:#29a0ff:#ff00ff:#00ffff:#5c3566"
-    scroll_on_keystroke = False
-    scrollback_lines = 1000
-    scrollbar_position = hidden
-    show_titlebar = False
-use_system_font = False
