@@ -227,5 +227,3 @@ bindsym $mod+Shift+n move workspace to output left
 #On Start
 exec --no-startup-id i3-msg 'workspace 1; exec firefox'
 exec --no-startup-id i3-msg 'workspace 2; exec terminator -bm'
-exec --no-startup-id i3-msg 'workspace 3; exec discord'
-exec --no-startup-id i3-msg 'workspace 4; exec teams'
